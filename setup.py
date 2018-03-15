@@ -4,7 +4,6 @@ from setuptools import find_packages
 
 entry_points = {
     'console_scripts': [
-        "nti_orgsync_spark_runner = nti.app.orgsync_spark.scripts.nti_orgsync_spark_runner:main",
     ],
     "z3c.autoinclude.plugin": [
         'target = nti.app',
