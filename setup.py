@@ -67,6 +67,7 @@ setup(
         'zope.i18nmessageid',
         'zope.interface',
         'zope.lifecycleevent',
+        'zope.location',
         'zope.security',
         'zope.traversing',
     ],
