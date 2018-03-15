@@ -58,6 +58,8 @@ setup(
     install_requires=[
         'setuptools',
         'nti.app.spark',
+        'nti.orgsync',
+        'nti.orgsync_rdbms',
         'nti.orgsync_spark',
         'nti.spark',
         'pyramid',

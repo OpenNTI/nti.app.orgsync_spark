@@ -11,6 +11,9 @@
 	<include package="zope.security" />
 	<include package="zope.location" />
 
+	<include package="nti.app.spark" />
 	<include package="nti.orgsync_spark" />
+
+	<include package=".views" />
 
 </configure>
