@@ -21,7 +21,7 @@ from nti.orgsync_rdbms.database.interfaces import IOrgSyncDatabase
 from nti.orgsync_spark.snapshot import snapshot as db_snapshot
 
 #: snapshot lock name
-SNAPSHOT_LOCK = '++etc++ou++recomm++snapshot++lock'
+SNAPSHOT_LOCK = '++etc++orgsync++snapshot++lock'
 
 logger = __import__('logging').getLogger(__name__)
 
