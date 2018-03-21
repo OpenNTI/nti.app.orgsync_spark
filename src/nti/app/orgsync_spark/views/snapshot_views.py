@@ -45,8 +45,10 @@ class SnapshotOrgSyncView(AbstractAuthenticatedView,
     """
 
     def readInput(self, value=None):
-        result = super(SnapshotOrgSyncView, self).readInput(value)
-        return CaseInsensitiveDict(result)
+        result = None
+        if self.request.body:
+            result = super(SnapshotOrgSyncView, self).readInput(value)
+        return CaseInsensitiveDict(result or {})
 
     def __call__(self):
         result = LocatedExternalDict()
@@ -61,8 +63,8 @@ class SnapshotOrgSyncView(AbstractAuthenticatedView,
         start_date = parse_timestamp(data.get('startDate'))
         timestamp = parse_timestamp(data.get('timestamp'))
         # parse bools
-        archive = is_true(data.get('archive', True))
         logs = is_true(data.get('logs', False))
+        archive = is_true(data.get('archive', True))
         # create job
         result = create_orgsync_source_snapshot_job(creator, timestamp, start_date,
                                                     end_date, logs, archive)
