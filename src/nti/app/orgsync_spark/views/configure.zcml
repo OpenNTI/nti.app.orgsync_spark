@@ -7,9 +7,9 @@
 	<include package="zope.component" />
 
 	<!-- Traversal -->
-	<adapter name="orgsync"
-			 for="nti.app.spark.views.SparkPathAdapter pyramid.interfaces.IRequest"
-			 factory=".OrgSyncPathAdapter"
+	<adapter name="spark"
+			 for="nti.app.orgsync.views.OrgSyncPathAdapter pyramid.interfaces.IRequest"
+			 factory=".SparkPathAdapter"
 			 provides="zope.traversing.interfaces.IPathAdapter" />
 
 </configure>

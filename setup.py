@@ -56,6 +56,7 @@ setup(
     tests_require=TESTS_REQUIRE,
     install_requires=[
         'setuptools',
+        'nti.app.orgsync',
         'nti.app.spark',
         'nti.orgsync',
         'nti.orgsync_rdbms',
