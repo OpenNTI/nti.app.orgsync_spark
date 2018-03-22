@@ -19,7 +19,7 @@ from nti.app.externalization.view_mixins import ModeledContentUploadRequestUtils
 
 from nti.app.orgsync_spark.snapshot import create_orgsync_source_snapshot_job
 
-from nti.app.orgsync_spark.views import OrgSyncPathAdapter
+from nti.app.orgsync_spark.views import SparkPathAdapter
 
 from nti.app.spark.common import parse_timestamp
 
@@ -36,7 +36,7 @@ logger = __import__('logging').getLogger(__name__)
 @view_defaults(route_name='objects.generic.traversal',
                renderer='rest',
                request_method='POST',
-               context=OrgSyncPathAdapter,
+               context=SparkPathAdapter,
                permission=nauth.ACT_NTI_ADMIN)
 class SnapshotOrgSyncView(AbstractAuthenticatedView,
                           ModeledContentUploadRequestUtilsMixin):

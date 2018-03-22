@@ -14,15 +14,15 @@ from zope.location.interfaces import IContained
 
 from zope.traversing.interfaces import IPathAdapter
 
-from nti.orgsync_spark import ORGSYNC
+from nti.app.orgsync_spark import SPARK
 
 logger = __import__('logging').getLogger(__name__)
 
 
 @interface.implementer(IPathAdapter, IContained)
-class OrgSyncPathAdapter(object):
+class SparkPathAdapter(object):
 
-    __name__ = ORGSYNC
+    __name__ = SPARK
 
     def __init__(self, context, request):
         self.context = context
