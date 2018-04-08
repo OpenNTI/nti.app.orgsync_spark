@@ -17,6 +17,8 @@ from nti.app.base.abstract_views import AbstractAuthenticatedView
 
 from nti.app.externalization.view_mixins import ModeledContentUploadRequestUtilsMixin
 
+from nti.app.orgsync_spark.interfaces import ACT_SNAPSHOPT
+
 from nti.app.orgsync_spark.snapshot import create_orgsync_source_snapshot_job
 
 from nti.app.orgsync_spark.views import SparkPathAdapter
@@ -24,8 +26,6 @@ from nti.app.orgsync_spark.views import SparkPathAdapter
 from nti.app.spark.common import parse_timestamp
 
 from nti.common.string import is_true
-
-from nti.dataserver import authorization as nauth
 
 from nti.externalization.interfaces import LocatedExternalDict
 
@@ -37,7 +37,7 @@ logger = __import__('logging').getLogger(__name__)
                renderer='rest',
                request_method='POST',
                context=SparkPathAdapter,
-               permission=nauth.ACT_NTI_ADMIN)
+               permission=ACT_SNAPSHOPT)
 class SnapshotOrgSyncView(AbstractAuthenticatedView,
                           ModeledContentUploadRequestUtilsMixin):
     """

@@ -15,4 +15,20 @@
 
 	<include package=".views" />
 
+	<!-- ACLs -->
+	<role id="role:nti.dataserver.orgsyncspark"
+		  title="A OrgSync-Spark role"
+		  description="Role for orgsync/spark objects."/>
+
+	<permission	id="nti.actions.orgsyncspark.snapshot"
+				title="Snapshot OrgSync dB" />
+
+	<grant	permission="nti.actions.orgsyncspark.snapshot"
+			role="role:nti.dataserver.orgsyncspark" />
+
+	<adapter name="NextthoughtDotComOUSparkAdmin"
+			 for="nti.dataserver.interfaces.IUser"
+			 factory=".authorization.NextthoughtDotComOUSparkAdmin"
+			 provides="nti.dataserver.interfaces.IGroupMember" />
+
 </configure>
