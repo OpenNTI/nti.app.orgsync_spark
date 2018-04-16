@@ -25,6 +25,9 @@ from nti.app.orgsync_spark.views import SparkPathAdapter
 
 from nti.app.spark.common import parse_timestamp
 
+from nti.app.spark.views import SPARK_JOB_ERROR
+from nti.app.spark.views import SPARK_JOB_STATUS
+
 from nti.common.string import is_true
 
 from nti.externalization.interfaces import LocatedExternalDict
@@ -83,5 +86,14 @@ class SnapshotOrgSyncView(AbstractAuthenticatedView,
 class SnapshotView(AbstractAuthenticatedView):
 
     def __call__(self):
-        result = {}
+        # exclude final forward slash for join
+        context_url = self.request.resource_url(self.context)[:-1]
+        snapshot_url = "/".join((context_url, '@@snapshot'))
+        job_poll_url = "/".join((context_url, SPARK_JOB_STATUS + '?jobId='))
+        job_error_url = "/".join((context_url, SPARK_JOB_ERROR + '?jobId='))
+        result = {
+            'snapshot_url': snapshot_url,
+            'job_poll_url': job_poll_url,
+            'job_error_url': job_error_url,
+        }
         return result
