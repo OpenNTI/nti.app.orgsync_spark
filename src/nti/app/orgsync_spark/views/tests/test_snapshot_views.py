@@ -22,10 +22,17 @@ class TestSnapshotViews(ApplicationLayerTest):
 
     @WithSharedApplicationMockDS(testapp=True, users=True)
     @fudge.patch('nti.app.orgsync_spark.views.snapshot_views.create_orgsync_source_snapshot_job')
-    def test_snapshot(self, mock_job):
+    def test_snapshot_post(self, mock_job):
         mock_job.is_callable().with_args().returns('job')
         self.testapp.post_json('/dataserver2/orgsync/spark/@@snapshot',
                                {
                                    'timestamp': '2017-11-30'
                                },
                                status=200)
+        
+    @WithSharedApplicationMockDS(testapp=True, users=True)
+    @fudge.patch('nti.app.orgsync_spark.views.snapshot_views.is_snapshot_lock_held')
+    def test_snapshot_get(self, mock_lh):
+        mock_lh.is_callable().returns(True)
+        self.testapp.get('/dataserver2/orgsync/spark/@@snapshot',
+                         status=200)
