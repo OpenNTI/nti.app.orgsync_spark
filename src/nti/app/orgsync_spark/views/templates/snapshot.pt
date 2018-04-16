@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:metal="http://xml.zope.org/namespaces/metal"
 	  xmlns:tal="http://xml.zope.org/namespaces/tal">
-	<head metal:use-macro="macro:mathplacement_head">
+	<head metal:use-macro="macro:orgsync_spark_head">
 		<metal:slot fill-slot="title">
 			<title>OrgSync-Spark</title>
 		</metal:slot>
@@ -13,6 +13,22 @@
 			<button type="button" data-toggle="modal" data-target="#snapshotModal">Snapshot</button>
 		</form>
 		<p/>
+		<table style="width:100%">
+			<thead>
+				<tr>
+					<th>Timestamp</th>
+					<th>Accounts</th>
+					<th>Organizations</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr tal:repeat="item options/snapshots">
+					<td tal:content="item/timestamp" />
+					<td tal:content="item/accounts" />
+					<td tal:content="item/organizations"/>
+				</tr>
+			</tbody>
+		</table>
 		<div class="modal fade" id="snapshotModal" role="dialog" 
 			tal:attributes="url options/snapshot_url; job_url options/job_poll_url; job_error_url options/job_error_url">
 			<div class="modal-dialog">

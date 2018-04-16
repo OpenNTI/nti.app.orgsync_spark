@@ -8,10 +8,18 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 
+from datetime import datetime
+
+import isodate
+
 from pyramid.view import view_config
 from pyramid.view import view_defaults
 
 from requests.structures import CaseInsensitiveDict
+
+from zope import component
+
+from zope.cachedescriptors.property import Lazy
 
 from nti.app.base.abstract_views import AbstractAuthenticatedView
 
@@ -27,6 +35,10 @@ from nti.app.spark.common import parse_timestamp
 
 from nti.app.spark.views import SPARK_JOB_ERROR
 from nti.app.spark.views import SPARK_JOB_STATUS
+
+from nti.orgsync_spark.accounts import IHistoricalAccounts
+
+from nti.orgsync_spark.organizations import IHistoricalOrganizations
 
 from nti.common.string import is_true
 
@@ -79,12 +91,35 @@ class SnapshotOrgSyncView(AbstractAuthenticatedView,
 
 @view_config(name="snapshot")
 @view_defaults(route_name='objects.generic.traversal',
-               renderer='rest',
+               renderer="templates/snapshot.pt",
                request_method='GET',
                context=SparkPathAdapter,
                permission=ACT_SNAPSHOPT)
 class SnapshotView(AbstractAuthenticatedView):
 
+    @Lazy
+    def timestamps(self):
+        historical = component.getUtility(IHistoricalAccounts)
+        result = set(historical.timestamps or ())
+        historical = component.getUtility(IHistoricalOrganizations)
+        result.intersection(set(historical.timestamps or ()))
+        return sorted(result, reverse=True)
+
+    @Lazy
+    def snapshots(self):
+        result = []
+        accounts = component.getUtility(IHistoricalAccounts)
+        organizations = component.getUtility(IHistoricalOrganizations)
+        # pylint: disable=not-an-iterable
+        for timestamp in self.timestamps or ():
+            tdt = datetime.fromtimestamp(timestamp)
+            result.append({
+                'timestamp': isodate.datetime_isoformat(tdt, isodate.DATE_EXT_COMPLETE),
+                'accounts': accounts.partition(timestamp).count(),
+                'organizations': organizations.partition(timestamp).count(),
+            })
+        return result
+    
     def __call__(self):
         # exclude final forward slash for join
         context_url = self.request.resource_url(self.context)[:-1]
@@ -92,6 +127,7 @@ class SnapshotView(AbstractAuthenticatedView):
         job_poll_url = "/".join((context_url, SPARK_JOB_STATUS + '?jobId='))
         job_error_url = "/".join((context_url, SPARK_JOB_ERROR + '?jobId='))
         result = {
+            'snapshots': self.snapshots,
             'snapshot_url': snapshot_url,
             'job_poll_url': job_poll_url,
             'job_error_url': job_error_url,
