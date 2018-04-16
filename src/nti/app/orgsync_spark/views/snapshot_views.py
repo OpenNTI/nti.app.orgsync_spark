@@ -72,3 +72,16 @@ class SnapshotOrgSyncView(AbstractAuthenticatedView,
         result = create_orgsync_source_snapshot_job(creator, timestamp, start_date,
                                                     end_date, logs, archive)
         return result
+
+
+@view_config(name="snapshot")
+@view_defaults(route_name='objects.generic.traversal',
+               renderer='rest',
+               request_method='GET',
+               context=SparkPathAdapter,
+               permission=ACT_SNAPSHOPT)
+class SnapshotView(AbstractAuthenticatedView):
+
+    def __call__(self):
+        result = {}
+        return result
