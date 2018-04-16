@@ -37,7 +37,11 @@ from nti.app.spark.common import parse_timestamp
 from nti.app.spark.views import SPARK_JOB_ERROR
 from nti.app.spark.views import SPARK_JOB_STATUS
 
+from nti.orgsync_spark import CREATED_AT
+
 from nti.orgsync_spark.accounts import IHistoricalAccounts
+
+from nti.orgsync_spark.entries import IMembershipLogs
 
 from nti.orgsync_spark.organizations import IHistoricalOrganizations
 
@@ -107,6 +111,13 @@ class SnapshotView(AbstractAuthenticatedView):
         return sorted(result, reverse=True)
 
     @Lazy
+    def last_entry(self):
+        entries = component.getUtility(IMembershipLogs).entries
+        if entries is not None:
+            tdt = entries.agg({CREATED_AT: "max"}).collect()[0][0]
+            return isodate.datetime_isoformat(tdt, isodate.DATE_EXT_COMPLETE)
+    
+    @Lazy
     def snapshots(self):
         result = []
         accounts = component.getUtility(IHistoricalAccounts)
@@ -132,6 +143,7 @@ class SnapshotView(AbstractAuthenticatedView):
             'snapshot_url': snapshot_url,
             'job_poll_url': job_poll_url,
             'job_error_url': job_error_url,
+            'last_entry': self.last_entry,
             'lock_held': is_snapshot_lock_held(),
         }
         return result

@@ -23,13 +23,15 @@
 					<th>Timestamp</th>
 					<th>Accounts</th>
 					<th>Organizations</th>
+					<th>Last Entry</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr tal:repeat="item options/snapshots">
 					<td tal:content="item/timestamp" />
 					<td tal:content="item/accounts" />
-					<td tal:content="item/organizations"/>
+					<td tal:content="item/organizations" />
+					<td tal:content="options/last_entry" />
 				</tr>
 			</tbody>
 		</table>
