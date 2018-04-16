@@ -59,8 +59,11 @@ class SnapshotOrgSyncView(AbstractAuthenticatedView,
         # pylint: disable=no-member
         creator = self.remoteUser.username
         # parse dates
-        end_date = parse_timestamp(data.get('endDate'))
-        start_date = parse_timestamp(data.get('startDate'))
+        end_date = data.get('endDate')
+        end_date = parse_timestamp(end_date) if end_date else None
+        start_date = data.get('startDate')
+        start_date = parse_timestamp(start_date) if start_date else None
+        # parse timestamp
         timestamp = parse_timestamp(data.get('timestamp'))
         # parse bools
         logs = is_true(data.get('logs', False))
