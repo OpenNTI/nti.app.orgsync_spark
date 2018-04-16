@@ -8,7 +8,7 @@
 			<title>OrgSync-Spark</title>
 		</metal:slot>
 	</head>
-	<body >
+	<body>
 		<form class="form-horizontal" action="" method="" id="upload_form">
 			<button type="button" data-toggle="modal" data-target="#snapshotModal">Snapshot</button>
 		</form>
@@ -108,4 +108,5 @@
 			});
 
 		</script>
+	</body>
 </html>
