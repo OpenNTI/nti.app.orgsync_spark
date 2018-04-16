@@ -35,6 +35,7 @@
 	<style>
 		body {
 			padding-top: 60px;
+			padding-left: 15px;
 		}
 		table, th, td {
 			border: 1px solid black;
