@@ -26,7 +26,7 @@
 							<div class="form-group col-sm-offset-1">
 								<label class="control-label col-sm-2">Timestamp:</label>
 								<div class="col-sm-5">
-									<div class='input-group date' id='begin_datetimepicker'>
+									<div class='input-group date' id='timestamp_datetimepicker'>
 										<input class="form-control" id="target_timestamp_date" name="target_timestamp_date"></input>
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-calendar"></span>
@@ -48,6 +48,12 @@
 		<script type="text/javascript" metal:use-macro="macro:orgsync_spark_task_script" />
 		<script type="text/javascript">
 
+			$('#timestamp_datetimepicker').datetimepicker({
+				format: "YYYY-MM-DD"
+			}).on("dp.change", function(e){
+				$('#publish_form').bootstrapValidator('revalidateField', 'target_timestamp_date');
+			});
+
 			function alert_job_error(error_url, jobId) {
 				const url = error_url + jobId;
 				json_get(url)
@@ -63,6 +69,8 @@
 				var url = $('#snapshotModal').attr('url');
 				var job_url = $('#snapshotModal').attr('job_url');
 				var error_url = $('#snapshotModal').attr('job_error_url');
+				// Timestamp
+				var timestamp = document.getElementById('target_timestamp_date').value;
 				// Run job
 				return new Promise((success, failed) => {
 					document.getElementById("cancel_snapshot_button").setAttribute('disabled', true);
@@ -70,7 +78,9 @@
 					$.ajax({
 						url: url,
 						method: 'POST',
-						data: {},
+						data: JSON.stringify({
+							"timestamp": timestamp
+						}),
 						success: function(data, status, jqXHR) {
 							const jobId = data['JobId']
 							const poll_url = job_url + jobId
