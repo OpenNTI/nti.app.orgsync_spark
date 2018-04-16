@@ -13,6 +13,7 @@ import time
 from zope import component
 
 from nti.app.spark.common import get_redis_lock
+from nti.app.spark.common import is_locked_held
 
 from nti.app.spark.runner import queue_job
 
@@ -28,6 +29,10 @@ logger = __import__('logging').getLogger(__name__)
 
 def get_snapshot_lock():
     return get_redis_lock(SNAPSHOT_LOCK)
+
+
+def is_snapshot_lock_held():
+    return is_locked_held(SNAPSHOT_LOCK)
 
 
 def orgsync_source_snapshot(timestamp, start_date=None, end_date=None,

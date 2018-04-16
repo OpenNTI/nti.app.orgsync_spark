@@ -27,6 +27,7 @@ from nti.app.externalization.view_mixins import ModeledContentUploadRequestUtils
 
 from nti.app.orgsync_spark.interfaces import ACT_SNAPSHOPT
 
+from nti.app.orgsync_spark.snapshot import is_snapshot_lock_held
 from nti.app.orgsync_spark.snapshot import create_orgsync_source_snapshot_job
 
 from nti.app.orgsync_spark.views import SparkPathAdapter
@@ -131,5 +132,6 @@ class SnapshotView(AbstractAuthenticatedView):
             'snapshot_url': snapshot_url,
             'job_poll_url': job_poll_url,
             'job_error_url': job_error_url,
+            'lock_held': is_snapshot_lock_held(),
         }
         return result

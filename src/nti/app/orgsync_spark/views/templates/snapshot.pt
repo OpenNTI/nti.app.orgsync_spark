@@ -10,7 +10,11 @@
 	</head>
 	<body>
 		<form class="form-horizontal" action="" method="" id="upload_form">
-			<button type="button" data-toggle="modal" data-target="#snapshotModal">Snapshot</button>
+			<button type="button" data-toggle="modal" data-target="#snapshotModal"
+					tal:condition="python: not options['lock_held']">Snapshot</button>
+			<div tal:condition="python: options['lock_held']">
+				<b><font color="red">Snapshot in progress.</font></b>
+			</div>
 		</form>
 		<p/>
 		<table style="width:50%">
