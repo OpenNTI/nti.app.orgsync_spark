@@ -57,6 +57,7 @@ setup(
     install_requires=[
         'setuptools',
         'nti.app.orgsync',
+        'nti.app.pyramid_zope',
         'nti.app.spark',
         'nti.orgsync',
         'nti.orgsync_rdbms',
@@ -64,6 +65,9 @@ setup(
         'nti.spark',
         'pyramid',
         'six',
+        'z3c.baseregistry',
+        'z3c.macro',
+        'z3c.template',
         'zope.cachedescriptors',
         'zope.component',
         'zope.i18nmessageid',
