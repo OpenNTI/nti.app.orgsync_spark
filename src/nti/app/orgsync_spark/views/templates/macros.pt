@@ -37,8 +37,8 @@
 			padding-top: 60px;
 		}
 		table, th, td {
-    		border: 1px solid black;
-   			border-collapse: collapse;
+			border: 1px solid black;
+			border-collapse: collapse;
 		}
 		.has-success .control-label{
 			color: #555;
